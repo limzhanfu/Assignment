@@ -22,6 +22,7 @@ include '_head.php'; ?>
             </ul>
         </div>
     </div>
+    
 <div class="nav-box">
     <ul>
         <li>
@@ -62,5 +63,6 @@ include '_head.php'; ?>
 </div>
 
 <div class="laptop"></div>
+
 
 <?php include('_foot.php');

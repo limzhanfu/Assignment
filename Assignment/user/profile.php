@@ -13,7 +13,19 @@ $_genders = [
 ];
 
 include '../_head.php'; ?>
+<div class = "container-profile">
 
+<div class = "sidebar-border">
+<div class="Profile">
+<h1>My Account</h1>
+<a href="">Profile</a>
+<a href="">Addresses</a>
+<a href="">Change Password</a>
+<a href="">Privacy Settings</a>
+</div>
+</div>
+
+<div class = "main-content">
 
 <h1>profile</h1>
 <form method="post">
@@ -57,3 +69,9 @@ include '../_head.php'; ?>
     </tr>
 </table>
 </form>
+
+
+
+</div>
+
+

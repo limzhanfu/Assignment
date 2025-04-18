@@ -6,6 +6,7 @@ $arr = $_db->query("SELECT * FROM user WHERE role!= 'admin'" )->fetchAll();
 include "../_head.php";
 ?>
 
+
 <table>
     <tr>
         <th>Id</th>

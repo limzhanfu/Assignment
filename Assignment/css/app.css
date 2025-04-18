@@ -323,3 +323,34 @@ section {
      90% { top:  100px; opacity: 1; }
     100% { top: -100px; opacity: 0; }
 }
+  
+.container-profile {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar-border {
+    background-color: #e65c00;
+    border-radius: 10px;
+    width: 250px;
+    padding: 20px;
+    color: white;
+  }
+  
+  .sidebar-border p {
+    font-size: 22px;
+  }
+
+  .Profile{
+    display: flex;             
+    flex-direction: column;   
+  }
+  
+  .main-content {
+    display: flex;             
+    flex-direction: column;   
+    padding: 40px;
+    flex: 1;                   
+  }
+  
+

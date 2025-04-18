@@ -10,6 +10,7 @@
     <script src="/js/app.js"></script>
 </head>
 <body>
+    
 <div id="info"><?= temp('info') ?></div>
     <div class="top">
         <div class="top-right">
