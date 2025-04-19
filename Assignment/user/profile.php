@@ -12,6 +12,28 @@ $_genders = [
     'O' => "Other",
 ];
 
+if(is_post()){
+    $name = req("name");
+    $gender = req("gender");
+    $date = req("date");
+
+    if($name == ''){
+        $_err["name"]="Cannot be Empty";
+    }
+    
+    if($gender == ''){
+        $_err["gender"]="Cannot be Empty";
+    }
+    if($date == ''){
+        $_err["date"] = "Cannot be Empty";
+    }
+
+    if (!$_err) {
+        temp('info', 'Save');
+    }
+}
+
+
 include '../_head.php'; ?>
 <div class = "container-profile">
 
@@ -35,9 +57,12 @@ include '../_head.php'; ?>
             Name
         </td>
         <td>
-            <?= html_text("name", "maxlength = '10'");?>
+            <?= html_text("name", "maxlength = '50'");?>
         </td>
     </tr>
+    <tr>
+        <td></td>
+        <td><?=err("name")?></td></tr>
     <tr>
         <td>
             Email
@@ -55,6 +80,10 @@ include '../_head.php'; ?>
         </td>
     </tr>
     <tr>
+        <td></td>
+        <td><?=err("gender")?></td></tr>
+    <tr>
+    <tr>
         <td>
             Date of Birth
         </td>
@@ -63,6 +92,10 @@ include '../_head.php'; ?>
         </td>
     </tr>
     <tr>
+        <td></td>
+        <td><?=err("date")?></td></tr>
+    <tr>
+    <tr>    
         <td>
             <button type="submit">Save</button>
         </td>
@@ -70,8 +103,8 @@ include '../_head.php'; ?>
 </table>
 </form>
 
-
-
 </div>
+
+
 
 

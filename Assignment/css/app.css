@@ -1,46 +1,49 @@
-.top{
-    height: 40px;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: #333;
-    position: relative;
+    padding: 0 20px;
+    height: 100px;
 }
-.top-right{
-height: 40px;
-}
-.top-rightItem{
-    height: 40px;
+
+.top-rightItem {
+    display: flex;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
-.top-rightItem li{
-    float:right;
+
+.top-rightItem li {
+    margin-left: 20px;
 }
-.top-rightItem li a{
-    display: block;
+
+.top-rightItem li a {
+    color: #888;
     text-decoration: none;
-    color:#888;
-    height: 40px;
-    line-height: 40px;
-    padding-right: 10px;
-}
-.top-rightItem li a:hover{
-    color:#fff;
+    line-height: 60px;
 }
 
-.nav{
-    height: 100px;
-    width: 1226px;
-    margin:  auto;
+.top-rightItem li a:hover {
+    color: #fff;
 }
 
-.nav-left{
-    width: 234px;
-    height: 100px;
-    
-    float: left;
+.nav-left {
+    display: flex;
+    align-items: center;
 }
-.logo{
-    width: 100px;
-    height: 100px;
-    margin-left: 65px;
+
+.logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 7px;
 }
 
 .nav-right{
@@ -327,14 +330,15 @@ section {
 .container-profile {
     display: flex;
     height: 100vh;
+    width: 100%;
   }
   
   .sidebar-border {
-    background-color: #e65c00;
-    border-radius: 10px;
+    background-color:#ccc;
     width: 250px;
     padding: 20px;
     color: white;
+
   }
   
   .sidebar-border p {
@@ -344,13 +348,67 @@ section {
   .Profile{
     display: flex;             
     flex-direction: column;   
+    margin-left: 80px;
   }
   
   .main-content {
     display: flex;             
     flex-direction: column;   
     padding: 40px;
-    flex: 1;                   
+    flex: 1;      
+    border-style: solid;
+    border-color: #ccc; 
+    border-width: 30px; 
+               
   }
+ 
+.main-content h1 {
+    font-size: 22px;
+    color: #333;
+}
+
+.main-content table {
+    width: 60%;
+}
+
+.main-content td {
+    padding: 12px 8px;
+    
+    color: #333;
+}
+
+.main-content input[type="text"],
+input[type="email"],
+input[type="date"],
+select {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+
+.main-content button[type="submit"] {
+    background-color: #ee4d2d;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+
+    font-size: 14px;
+
+}
+
+.main-content button[type="submit"]:hover {
+    background-color: #d73c1d;
+}
+
+.label {
+    font-weight: bold;
+    width: 150px;
+    color: #666;
+}
+
   
 
