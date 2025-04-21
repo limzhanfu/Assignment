@@ -1,9 +1,11 @@
-body {
+body,html{
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
+
 
 .top {
     display: flex;
@@ -23,6 +25,9 @@ body {
 
 .top-rightItem li {
     margin-left: 20px;
+    color: #888;
+    text-decoration: none;
+    line-height: 60px;
 }
 
 .top-rightItem li a {
@@ -329,7 +334,7 @@ section {
   
 .container-profile {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
   }
   
@@ -359,7 +364,7 @@ section {
     border-style: solid;
     border-color: #ccc; 
     border-width: 30px; 
-               
+    min-height: 100vh;
   }
  
 .main-content h1 {
@@ -410,5 +415,23 @@ select {
     color: #666;
 }
 
-  
+label.upload img {
+    display: block;
+    border: 1px solid #333;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.profile-img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+
+
+
+
 

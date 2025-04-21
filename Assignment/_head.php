@@ -22,9 +22,29 @@
     </div>
     <div class="top-right">
         <ul class="top-rightItem">
-            <li><a href="/user/register.php">REGISTER</a></li>
-            <li><a href="/user/memberlist.php">MEMBER LIST</a></li>
-            <li><a href="/user/profile.php">PROFILE</a></li>
+        <li>
+        <?php if ($_user != null): ?>
+        <a href="/user/profile.php"><img src="/uploads/<?= $_user->photo ?>" class = "profile-img">
+            <span><?= $_user->name ?></span>
+        </a>
+        
+        </li>
+        <li>
+            <a href="/logout.php">Logout</a>
+        </li>
+        <?php else:?>
+            <li>
+                <a href="/login.php">Login</a>
+            </li>
+            <li>
+                |
+            </li>
+            <li>
+                <a href="/user/register.php">
+                    Register
+                </a>
+            </li>            
+        <?php endif ?>
         </ul>
     </div>
 </div>

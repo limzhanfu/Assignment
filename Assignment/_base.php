@@ -41,9 +41,9 @@ function encode($value) {
     return htmlentities($value);
 }
 
-function html_text($key, $attr = '',$placeholder = '') {
-    $value = encode($GLOBALS[$key] ?? '');
-    echo "<input type='text' id='$key' name='$key' value='$value' $attr placeholder='$placeholder'";
+function html_text($key, $attr = '',$placeholder = '',$value = '') {
+    $value = encode($value ?? '');
+    echo "<input type='text' id='$key' name='$key' value='$value' $attr placeholder='$placeholder'>";
 }
 
 // Generate <input type='password'>
@@ -66,8 +66,8 @@ function html_search($key, $attr = '') {
 }
 
 // Generate <input type='radio'> list
-function html_radios($key, $items, $br = false) {
-    $value = encode($GLOBALS[$key] ?? '');
+function html_radios($key, $items, $br = false,$value) {
+    $value = encode($value ?? '');
     echo '<div>';
     foreach ($items as $id => $text) {
         $state = $id == $value ? 'checked' : '';
@@ -77,6 +77,10 @@ function html_radios($key, $items, $br = false) {
         }
     }
     echo '</div>';
+}
+
+function html_file($key, $accept = '', $attr = '') {
+    echo "<input type='file' id='$key' name='$key' accept='$accept' $attr>";
 }
 
 // Generate <select>
@@ -105,6 +109,9 @@ function err($key) {
         echo '<span></span>';
     }
 }
+
+$_user = $_SESSION['user'] ?? null;
+
 function login($user, $url = '/') {
     $_SESSION['user'] = $user;
     redirect($url);
@@ -132,6 +139,36 @@ function auth(...$roles) {
     
     redirect('/login.php');
 }
+
+// Obtain uploaded file --> cast to object
+function get_file($key) {
+    $f = $_FILES[$key] ?? null;
+    
+    if ($f && $f['error'] == 0) {
+        return (object)$f;
+    }
+
+    return null;
+}
+
+// Crop, resize and save photo
+function save_photo($f, $folder, $width = 200, $height = 200) {
+    $photo = uniqid() . '.jpg';
+    
+    require_once 'lib/SimpleImage.php';
+    $img = new SimpleImage();
+    $img->fromFile($f->tmp_name)
+        ->thumbnail($width, $height)
+        ->toFile("$folder/$photo", 'image/jpeg');
+
+    return $photo;
+}
+
+// Is money?
+function is_money($value) {
+    return preg_match('/^\-?\d+(\.\d{1,2})?$/', $value);
+}
+
 
 function is_email($value) {
     return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;

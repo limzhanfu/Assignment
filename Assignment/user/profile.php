@@ -1,10 +1,11 @@
 <?php
 require "../_base.php";
 
-//$id = req('id');
-//$stm = $_db->prepare("SELECT email FROM user WHERE id = ?");
-//$stm->execute($id);
-//$email = $stm->fetch();
+function load_profile($_db, $_user) {
+    $stm = $_db->prepare('SELECT * FROM user_profile WHERE user_id = ?');
+    $stm->execute([$_user->id]);
+    return $stm->fetch();
+}
 
 $_genders = [
     'F' => 'Female',
@@ -12,10 +13,29 @@ $_genders = [
     'O' => "Other",
 ];
 
+if (is_get()) {
+
+    $stm = $_db->prepare('SELECT * FROM user WHERE id = ?');
+    $stm->execute([$_user->id]);
+    $u = $stm->fetch();
+
+    if (!$u) {
+        redirect('/');
+    }
+
+    extract((array)$u);
+    $_SESSION['photo'] = $u->photo;
+
+    $k = load_profile($_db,$_user);
+}
+
+
 if(is_post()){
     $name = req("name");
     $gender = req("gender");
     $date = req("date");
+    $photo = $_SESSION['photo'];
+    $f = get_file('photo');
 
     if($name == ''){
         $_err["name"]="Cannot be Empty";
@@ -27,9 +47,40 @@ if(is_post()){
     if($date == ''){
         $_err["date"] = "Cannot be Empty";
     }
+    // Validate: photo (file) --> optional
+    if ($f) {
+        if (!str_starts_with($f->type, 'image/')) {
+            $_err['photo'] = 'Must be image';
+        }
+        else if ($f->size > 1 * 1024 * 1024) {
+            $_err['photo'] = 'Maximum 1MB';
+        }
+    }
 
     if (!$_err) {
+        
+        if ($f) {
+            unlink("../uploads/$photo");
+            $photo = save_photo($f, '../uploads');
+        }
+
+        $stm = $_db->prepare('
+        UPDATE user_profile
+        SET name = ?,gender = ?,date_birth = ?
+        WHERE user_id = ?
+                            ');
+         $stm->execute([$name,$gender,$date,$_user->id]);
+
+         $stm = $_db->prepare('
+         UPDATE user
+         SET photo = ?
+         WHERE id = ?
+                             ');
+        $stm->execute([$photo,$_user->id]);
+        
         temp('info', 'Save');
+
+        $k = load_profile($_db,$_user);
     }
 }
 
@@ -57,7 +108,7 @@ include '../_head.php'; ?>
             Name
         </td>
         <td>
-            <?= html_text("name", "maxlength = '50'");?>
+            <?= html_text("name", "maxlength = '50'",'',$k->name??"");?>
         </td>
     </tr>
     <tr>
@@ -76,7 +127,7 @@ include '../_head.php'; ?>
             Gender
         </td>
         <td>
-            <?= html_radios('gender',$_genders)?>
+            <?= html_radios('gender',$_genders,'false', $k->gender)?>
         </td>
     </tr>
     <tr>
@@ -88,13 +139,29 @@ include '../_head.php'; ?>
             Date of Birth
         </td>
         <td>
-            <input type="date" id = "date" name = "date">
+            <input type="date" id="date" name="date" value="<?= htmlspecialchars($k->date_birth ?? '') ?>"> 
         </td>
     </tr>
     <tr>
         <td></td>
-        <td><?=err("date")?></td></tr>
+        <td><?=err("date")?></td>
+    </tr>
     <tr>
+        <td><label for="photo">Photo</label></td>
+        <td> 
+            <label class="upload" tabindex="0">
+            <?= html_file('photo', 'image/*', 'hidden') ?>
+            <img src="../uploads/<?= $photo ?>">
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <?= err('photo') ?>
+        </td>
+        
+    </tr>
     <tr>    
         <td>
             <button type="submit">Save</button>
@@ -104,6 +171,8 @@ include '../_head.php'; ?>
 </form>
 
 </div>
+
+
 
 
 

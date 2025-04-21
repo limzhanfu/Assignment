@@ -6,7 +6,6 @@ if(is_post()){
     $confirmPassword = req('confirmPassword');
     $username = req('username');
 
-
     if($email == ''){
         $_err['email'] = "Required";
     }
@@ -32,15 +31,44 @@ if(is_post()){
         $_err['username'] = "Required";
     }
 
+    $f = get_file('photo'); 
+
+    // Validate: photo (file) 
+    if ($f == null) {
+        $photo = 'default.jpg';
+    }
+    else if (!str_starts_with($f->type,'image/')) { 
+        $_err['photo'] = 'Must be image';
+    }
+    else if ($f->size > 1*1024*1024) { 
+        $_err['photo'] = 'Maximum 1MB';
+    }
+
     if (!$_err) {
-   
+       
+        if($f !== null) {
+            $photo = uniqid().'.jpg';
+    
+            require_once 'C:\Assignment\Assignment\lib\SimpleImage.php';
+            $img = new SimpleImage();
+            $img->fromFile($f->tmp_name)
+                ->thumbnail(200,200)
+                ->toFile("../uploads/$photo",'image/jpeg');
+        }
         $stm = $_db->prepare('
-            INSERT INTO user (email, password, name, role)
-            VALUES (?, SHA1(?), ?, "Member")
+            INSERT INTO user (email, password, name, role, photo)
+            VALUES (?, SHA1(?), ?, "Member",?)
         ');
-        $stm->execute([$email,$password,$username]);
+
+        $stm->execute([$email,$password,$username,$photo]);
+       
+        $user_id = $_db->lastInsertId(); 
+
+        $stm = $_db->prepare("INSERT INTO user_profile (user_id) VALUES (?)");
+        $stm->execute([$user_id]);
 
         temp('info', 'Record inserted');
+        redirect("../login.php");
     }
 }
 
@@ -51,7 +79,7 @@ if(is_post()){
             <header><h1 >Register</h1></header>
         </div>
 
-        <form method="post" class="form">
+        <form method="post" class="form" enctype="multipart/form-data">
     <div class="form-row">
         <label for="email">Email</label>
         <?= html_text("email", "maxlength='30'","Enter your email") ?>
@@ -75,6 +103,16 @@ if(is_post()){
         <?= html_text("username", "maxlength='30'",'Enter your username') ?>
         <?= err("username") ?>
     </div>
+
+    <div class="form-row">
+        <label for="photo">Photo</label>
+        <label class="upload" tabindex="0">
+           <?= html_file('photo','image/*','hidden') ?>
+        <img src="/img/photo.jpg">
+    </label>
+    <?= err('photo') ?>
+    </div>
+
     <section>
         <button type = "submit" class = "register-btn">Submit</button>
         <button type="reset" class = "register-btn">Reset</button>
