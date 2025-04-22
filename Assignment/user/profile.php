@@ -75,18 +75,11 @@ if(is_post()){
 
         $stm = $_db->prepare('
         UPDATE user_profile
-        SET name = ?,gender = ?,date_birth = ?
+        SET name = ?,gender = ?,date_of_birth = ?,photo = ?
         WHERE user_id = ?
                             ');
-         $stm->execute([$name,$gender,$date,$_user->id]);
+         $stm->execute([$name,$gender,$date,$_user->id,$photo]);
 
-         $stm = $_db->prepare('
-         UPDATE user
-         SET photo = ?
-         WHERE id = ?
-                             ');
-        $stm->execute([$photo,$_user->id]);
-        
         temp('info', 'Save');
 
         $k = load_profile($_db,$_user);
