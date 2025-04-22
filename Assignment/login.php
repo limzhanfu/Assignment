@@ -5,6 +5,7 @@ if(is_post()){
     $email = req('email');
     $password = req('password');
 
+
     if($email == ''){
         $_err['email'] = "Required";
     }
@@ -15,6 +16,7 @@ if(is_post()){
     if($password == ''){
         $_err['password'] = "Required";
     }
+   
 
     if(!$_err){
         $stm = $_db->prepare('
@@ -62,6 +64,8 @@ include "_head.php";
         <button type = "submit" class = "register-btn">Submit</button>
         <button type="reset" class = "register-btn">Reset</button>
     </section>
+
+    <a href="/user/reset.php">Forgot Password</a>
 
 </form>
 

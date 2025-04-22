@@ -76,7 +76,7 @@ if(is_post()){
     }
 }
 
- include "../_head.php" ?>
+ include "../_head.php"?>
  
 <div class="container">
         <div class ="register-header">

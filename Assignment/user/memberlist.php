@@ -18,7 +18,7 @@ include "../_head.php";
         <tr>
             <td><?= $s -> id ?></td>
             <td><?= $s -> email ?></td>
-            <td><?= $s -> name ?></td>
+            <td><?= $s -> username ?></td>
         </tr>    
         
     <?php } ?>

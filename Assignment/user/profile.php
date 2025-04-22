@@ -90,18 +90,9 @@ if(is_post()){
 }
 
 
-include '../_head.php'; ?>
-<div class = "container-profile">
-
-<div class = "sidebar-border">
-<div class="Profile">
-<h1>My Account</h1>
-<a href="">Profile</a>
-<a href="">Addresses</a>
-<a href="">Change Password</a>
-<a href="">Privacy Settings</a>
-</div>
-</div>
+include '../_head.php'; 
+include "../profile_layout.php"
+?>
 
 <div class = "main-content">
 
@@ -144,7 +135,7 @@ include '../_head.php'; ?>
             Date of Birth
         </td>
         <td>
-            <input type="date" id="date" name="date" value="<?= htmlspecialchars($k->date_birth ?? '') ?>"> 
+            <input type="date" id="date" name="date" value="<?= htmlspecialchars($k->date_of_birth ?? '') ?>"> 
         </td>
     </tr>
     <tr>
