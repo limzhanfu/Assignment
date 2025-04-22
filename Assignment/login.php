@@ -17,9 +17,15 @@ if(is_post()){
     }
 
     if(!$_err){
-        $stm = $_db->prepare('SELECT * FROM user WHERE email = ? AND password = SHA(?)');
-        $stm->execute([$email,$password]);
-        $u = $stm->fetch();
+        $stm = $_db->prepare('
+        SELECT u.*, up.photo
+        FROM user u
+        JOIN user_profile up ON u.id = up.user_id
+        WHERE u.email = ? AND u.password = SHA(?)
+    ');
+    
+    $stm->execute([$email, $password]);
+    $u = $stm->fetch();
 
         if($u){
          temp("info","Login Successfully");

@@ -174,7 +174,7 @@ function is_email($value) {
     return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
 }
 
-$_db = new PDO('mysql:dbname=assignment', 'root', '', [
+$_db = new PDO('mysql:dbname=tt online', 'root', '', [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 ]);
     

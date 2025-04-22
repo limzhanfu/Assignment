@@ -25,7 +25,7 @@
         <li>
         <?php if ($_user != null): ?>
         <a href="/user/profile.php"><img src="/uploads/<?= $_user->photo ?>" class = "profile-img">
-            <span><?= $_user->name ?></span>
+            <span><?= $_user->username ?></span>
         </a>
         
         </li>
@@ -43,7 +43,10 @@
                 <a href="/user/register.php">
                     Register
                 </a>
-            </li>            
+            </li> 
+            <li>
+            <a href="/user/memberlist.php">Member</a>
+            </li>           
         <?php endif ?>
         </ul>
     </div>

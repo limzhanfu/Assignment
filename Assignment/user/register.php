@@ -30,6 +30,10 @@ if(is_post()){
     if($username == ''){
         $_err['username'] = "Required";
     }
+    else if (!is_unique($email, 'user', 'username')) {
+        $_err['username'] = 'Existed';
+    }
+    
 
     $f = get_file('photo'); 
 
@@ -56,16 +60,16 @@ if(is_post()){
                 ->toFile("../uploads/$photo",'image/jpeg');
         }
         $stm = $_db->prepare('
-            INSERT INTO user (email, password, name, role, photo)
-            VALUES (?, SHA1(?), ?, "Member",?)
+            INSERT INTO user (email, password, username, role)
+            VALUES (?, SHA1(?), ?, "Member")
         ');
 
-        $stm->execute([$email,$password,$username,$photo]);
+        $stm->execute([$email,$password,$username]);
        
         $user_id = $_db->lastInsertId(); 
 
-        $stm = $_db->prepare("INSERT INTO user_profile (user_id) VALUES (?)");
-        $stm->execute([$user_id]);
+        $stm = $_db->prepare("INSERT INTO user_profile (user_id,photo) VALUES (?,?)");
+        $stm->execute([$user_id,$photo]);
 
         temp('info', 'Record inserted');
         redirect("../login.php");

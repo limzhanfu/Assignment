@@ -7,6 +7,12 @@ function load_profile($_db, $_user) {
     return $stm->fetch();
 }
 
+function load_account($_db,$_user){
+    $stm = $_db->prepare('SELECT * FROM user WHERE id = ?');
+    $stm->execute([$_user->id]);
+    return $stm->fetch();
+}
+
 $_genders = [
     'F' => 'Female',
     'M' => 'Male',
@@ -15,9 +21,7 @@ $_genders = [
 
 if (is_get()) {
 
-    $stm = $_db->prepare('SELECT * FROM user WHERE id = ?');
-    $stm->execute([$_user->id]);
-    $u = $stm->fetch();
+    $u = load_account($_db,$_user);
 
     if (!$u) {
         redirect('/');
@@ -34,7 +38,7 @@ if(is_post()){
     $name = req("name");
     $gender = req("gender");
     $date = req("date");
-    $photo = $_SESSION['photo'];
+    $photo = $_user->photo;
     $f = get_file('photo');
 
     if($name == ''){
@@ -60,7 +64,9 @@ if(is_post()){
     if (!$_err) {
         
         if ($f) {
-            unlink("../uploads/$photo");
+            if($photo != "default.jpg"){
+                unlink("../uploads/$photo");
+            }
             $photo = save_photo($f, '../uploads');
         }
 
@@ -81,6 +87,9 @@ if(is_post()){
         temp('info', 'Save');
 
         $k = load_profile($_db,$_user);
+        $u = load_account($_db,$_user);
+
+        $_user->photo = $photo;
     }
 }
 
@@ -101,7 +110,7 @@ include '../_head.php'; ?>
 <div class = "main-content">
 
 <h1>profile</h1>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 <table>
     <tr>
         <td>
@@ -119,7 +128,7 @@ include '../_head.php'; ?>
             Email
         </td>
         <td>
-            email address
+            <?= $u->email?>
         </td>
     </tr>
     <tr>
