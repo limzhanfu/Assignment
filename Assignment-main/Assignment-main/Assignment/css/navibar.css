@@ -1,0 +1,80 @@
+/* style for navigation bar and search bar
+
+    /* General reset for the navigation */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Navigation container */
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333;
+        padding: 15px 30px;
+        color: white;
+    }
+
+    /* Logo section */
+    .nav-left img {
+        max-width: 100%;
+        height: auto;
+        width: 150px; /* Limit the logo size */
+    }
+
+    /* Navigation links container */
+    .nav-mid {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Navigation links */
+    .nav-main {
+        display: flex;
+        list-style: none;
+    }
+
+    .nav-main li {
+        margin: 0 15px;
+    }
+
+    .nav-main li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+    }
+
+    .nav-main li a:hover {
+        color: #4CAF50; /* Green on hover */
+    }
+
+    /* Search bar */
+    .nav-search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-search input[type="text"], .nav-search select, .nav-search button {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    .nav-search button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .nav-search button:hover {
+        background-color: #45a049;
+    }
